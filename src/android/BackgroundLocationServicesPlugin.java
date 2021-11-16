@@ -1,6 +1,5 @@
 package com.jmjsoft.cordova.location;
 
-
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -13,8 +12,6 @@ import org.json.JSONObject;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -31,13 +28,9 @@ import android.os.IBinder;
 import android.content.ComponentName;
 
 import com.google.android.gms.location.DetectedActivity;
-import com.tqsoft.bsdriver.Service.AlarmReceiver;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
