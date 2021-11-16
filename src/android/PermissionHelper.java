@@ -22,7 +22,7 @@ Author : Marian Hello https://github.com/mauron85
        specific language governing permissions and limitations
        under the License.
 */
-package com.flybuy.cordova.location;
+package com.jmjsoft.cordova.location;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;

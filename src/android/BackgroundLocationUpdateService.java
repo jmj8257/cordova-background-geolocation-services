@@ -1,4 +1,4 @@
-package com.flybuy.cordova.location;
+package com.jmjsoft.cordova.location;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

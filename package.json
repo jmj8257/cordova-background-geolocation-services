@@ -1,6 +1,6 @@
 {
   "name": "@jmj8257/cordova-background-location-services",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Cordova Background Geolocation Plugin For Anrdoid and iOS With JS Callbacks",
   "cordova": {
     "id": "cordova-background-location-services",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jmj8257/cordova-background-geolocation-services.git"
+    "url": "git+https://github.com/jmj8257/cordova-background-geolocation-services.git"
   },
   "keywords": [
     "gps",
@@ -37,6 +37,6 @@
   },
   "homepage": "https://github.com/jmj8257/cordova-background-geolocation-services#readme",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/"
+    "registry": "https://npm.pkg.github.com/jmj8257"
   }
 }
