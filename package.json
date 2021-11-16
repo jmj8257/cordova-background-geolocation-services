@@ -30,13 +30,13 @@
       "version": ">=3.0.0"
     }
   ],
-  "author": "J-Minjun",
+  "author": "J.Minjun",
   "license": "Apache-2.0",
   "bugs": {
     "url": "https://github.com/jmj8257/cordova-background-geolocation-services/issues"
   },
   "homepage": "https://github.com/jmj8257/cordova-background-geolocation-services#readme",
   "publishConfig": {
-    "registry": "https://npm.pkg.github.com/jmj8257"
+    "registry": "https://npm.pkg.github.com/"
   }
 }
