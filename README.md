@@ -8,13 +8,19 @@ This plugin is for enabling background geolocation in your cordova project. It w
 
 I've also included an activity detection API. It is used to save battery life, but you can also retrieve the likelihood of what the user is currently doing (standing still, walking, running, driving, etc).
 
-### Changelog :
- * 1.1.0 -Breaking- (If you need the lower swift versions, use 1.0.4)
-   - [iOS]: Converted to new Swift Version
-   - [iOS]: Fixed some cases where the plugin would keep running in the foreground
- * 1.0.4 New Low GPS mode for increased battery life on iOS
- * 1.0.3 Activity Detection And Much Better Battery Life For iOS!
- * 1.0.2 Error callbacks now correctly funnel through the location register
+[comment]: <> (### Changelog :)
+
+[comment]: <> ( * 1.1.0 -Breaking- &#40;If you need the lower swift versions, use 1.0.4&#41;)
+
+[comment]: <> (   - [iOS]: Converted to new Swift Version)
+
+[comment]: <> (   - [iOS]: Fixed some cases where the plugin would keep running in the foreground)
+
+[comment]: <> ( * 1.0.4 New Low GPS mode for increased battery life on iOS)
+
+[comment]: <> ( * 1.0.3 Activity Detection And Much Better Battery Life For iOS!)
+
+[comment]: <> ( * 1.0.2 Error callbacks now correctly funnel through the location register)
  
 ### Techniques used:
 
@@ -29,12 +35,7 @@ I've also included an activity detection API. It is used to save battery life, b
 
 Cordova :
 ````
-cordova plugin add https://github.com/pmwisdom/cordova-background-geolocation-services.git --save
-````
-
-Meteor : 
-````
-meteor add mirrorcell:background-geolocation-plus
+cordova plugin add https://github.com/jmj8257/cordova-background-geolocation-services.git --save
 ````
 
 ### How to use: 
@@ -101,7 +102,3 @@ bgLocationServices.stop();
 ### Known Issues:
 
 Phonegap Build : Swift files are not officially supported as of yet on phonegap build, so if there is a problem installing it in that environment, there isn't anything I can do until they are supported.
-
-### Credit!
-
-By the way, credit to Christocracy and his great [plugin](https://github.com/christocracy/cordova-plugin-background-geolocation/tree/0.3.7) that inspired this one. It should share the same concepts via javascript.

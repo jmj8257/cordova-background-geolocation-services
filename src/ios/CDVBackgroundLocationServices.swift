@@ -59,19 +59,19 @@ var activityCommandDelegate:CDVCommandDelegate?;
 
         NotificationCenter.default.addObserver(
             self,
-            selector: Selector("onResume"),
+            selector: #selector(onResume),
             name: NSNotification.Name.UIApplicationWillEnterForeground,
             object: nil);
 
         NotificationCenter.default.addObserver(
             self,
-            selector: Selector("onSuspend"),
+            selector: #selector(onSuspend),
             name: NSNotification.Name.UIApplicationDidEnterBackground,
             object: nil);
 
         NotificationCenter.default.addObserver(
             self,
-            selector: Selector("willResign"),
+            selector: #selector(willResign),
             name: NSNotification.Name.UIApplicationWillResignActive,
             object: nil);
     }
@@ -86,7 +86,7 @@ var activityCommandDelegate:CDVCommandDelegate?;
     // 7 notificationText-- (not used on ios),
     // 8 activityType, fences -- (not used ios)
     // 9 useActivityDetection
-    open func configure(_ command: CDVInvokedUrlCommand) {
+    @objc open func configure(_ command: CDVInvokedUrlCommand) {
 
         //log(message: "configure arguments: \(command.arguments)");
 
@@ -110,20 +110,20 @@ var activityCommandDelegate:CDVCommandDelegate?;
         commandDelegate!.send(pluginResult, callbackId:command.callbackId)
     }
 
-    open func registerForLocationUpdates(_ command: CDVInvokedUrlCommand) {
+    @objc open func registerForLocationUpdates(_ command: CDVInvokedUrlCommand) {
         log(message: "registerForLocationUpdates");
         locationUpdateCallback = command.callbackId;
         locationCommandDelegate = commandDelegate;
     }
 
-    open func registerForActivityUpdates(_ command : CDVInvokedUrlCommand) {
+    @objc open func registerForActivityUpdates(_ command : CDVInvokedUrlCommand) {
         log(message: "registerForActivityUpdates");
         activityUpdateCallback = command.callbackId;
         activityCommandDelegate = commandDelegate;
     }
 
 
-    open func start(_ command: CDVInvokedUrlCommand) {
+    @objc open func start(_ command: CDVInvokedUrlCommand) {
         log(message: "Started");
         enabled = true;
 
@@ -138,7 +138,7 @@ var activityCommandDelegate:CDVCommandDelegate?;
         commandDelegate!.send(pluginResult, callbackId:command.callbackId)
     }
 
-    func stop(_ command: CDVInvokedUrlCommand) {
+    @objc func stop(_ command: CDVInvokedUrlCommand) {
         log(message: "Stopped");
         enabled = false;
 
@@ -149,14 +149,14 @@ var activityCommandDelegate:CDVCommandDelegate?;
         commandDelegate!.send(pluginResult, callbackId:command.callbackId)
     }
 
-    func getVersion(_ command: CDVInvokedUrlCommand) {
+    @objc func getVersion(_ command: CDVInvokedUrlCommand) {
         log(message: "Returning Version \(PLUGIN_VERSION)");
 
         let pluginResult = CDVPluginResult(status: CDVCommandStatus_OK, messageAs: PLUGIN_VERSION);
         commandDelegate!.send(pluginResult, callbackId: command.callbackId);
     }
 
-    func startAggressiveTracking(command: CDVInvokedUrlCommand) {
+    @objc func startAggressiveTracking(command: CDVInvokedUrlCommand) {
         log(message: "startAggressiveTracking");
         locationManager.startAggressiveTracking();
 
@@ -165,7 +165,7 @@ var activityCommandDelegate:CDVCommandDelegate?;
 
     }
 
-    func promptForNotificationPermission() {
+    @objc func promptForNotificationPermission() {
         log(message: "Prompting For Notification Permissions");
         if #available(iOS 8, *) {
             let settings = UIUserNotificationSettings(types: [.alert, .badge, .sound], categories: nil);
@@ -176,7 +176,7 @@ var activityCommandDelegate:CDVCommandDelegate?;
     }
 
     //State Methods
-    func onResume() {
+    @objc func onResume() {
         log(message: "App Resumed");
         background = false;
 
@@ -185,7 +185,7 @@ var activityCommandDelegate:CDVCommandDelegate?;
         activityManager.stopDetection();
     }
 
-    func onSuspend() {
+    @objc func onSuspend() {
         log(message: "App Suspended. Enabled? \(enabled)");
         background = true;
 
@@ -195,7 +195,7 @@ var activityCommandDelegate:CDVCommandDelegate?;
         }
     }
 
-    func willResign() {
+    @objc func willResign() {
         log(message: "App Will Resign. Enabled? \(enabled)");
         background = true;
 
@@ -215,7 +215,7 @@ var activityCommandDelegate:CDVCommandDelegate?;
      *     kCLLocationAccuracyThreeKilometers    3000 meters
      */
 
-    func toDesiredAccuracy(distance: Int) -> CLLocationAccuracy {
+    @objc func toDesiredAccuracy(distance: Int) -> CLLocationAccuracy {
         if(distance == 0) {
             return kCLLocationAccuracyBestForNavigation;
         } else if(distance < 10) {
@@ -231,7 +231,7 @@ var activityCommandDelegate:CDVCommandDelegate?;
         }
     }
 
-    func toActivityType(type: String) -> CLActivityType {
+    @objc func toActivityType(type: String) -> CLActivityType {
         if(type == "AutomotiveNavigation") {
             return CLActivityType.automotiveNavigation;
         } else if(type == "OtherNavigation") {
@@ -270,7 +270,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         }
     }
 
-    func enableBackgroundLocationUpdates() {
+    @objc func enableBackgroundLocationUpdates() {
         // New property required for iOS 9 to get location updates in background:
         // http://stackoverflow.com/questions/30808192/allowsbackgroundlocationupdates-in-cllocationmanager-in-ios9
         if #available(iOS 9, *) {
@@ -278,7 +278,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         }
     }
 
-    func locationToDict(loc:CLLocation) -> NSDictionary {
+    @objc func locationToDict(loc:CLLocation) -> NSDictionary {
         let locDict:Dictionary = [
             "latitude" : loc.coordinate.latitude,
             "longitude" : loc.coordinate.longitude,
@@ -292,12 +292,12 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         return locDict as NSDictionary;
     }
 
-    func stopBackgroundTracking() {
+    @objc func stopBackgroundTracking() {
         taskManager.endAllBackgroundTasks();
         self.stopUpdating();
     }
 
-    func sync() {
+    @objc func sync() {
         self.enableBackgroundLocationUpdates();
 
         var bestLocation:CLLocation?;
@@ -352,7 +352,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         }
     }
 
-    func startAggressiveTracking() {
+    @objc func startAggressiveTracking() {
         log(message: "Got Request To Start Aggressive Tracking");
         self.enableBackgroundLocationUpdates();
         self.aggressive = true;
@@ -365,7 +365,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
 
     // Force here is to make sure we are only starting the location updates once, until we want to restart them
     // Was having issues with it starting, and then starting a second time through resign on some builds.
-    func startUpdating(force : Bool) {
+    @objc func startUpdating(force : Bool) {
         if(!self.updatingLocation || force) {
             self.enableBackgroundLocationUpdates();
             self.updatingLocation = true;
@@ -386,7 +386,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         }
     }
 
-    func stopUpdating() {
+    @objc func stopUpdating() {
         log(message: "[LocationManager.stopUpdating] Stopping Location Updates!");
         self.updatingLocation = false;
 
@@ -404,7 +404,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         self.manager.stopMonitoringSignificantLocationChanges();
     }
 
-    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
+    @objc func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
         // If we've shut off updating on our side and a location is left in the queue to be passed back we want to toss it or the location manager will restart updating again when we dont want it to.
         if(!self.updatingLocation) {
             return;
@@ -443,7 +443,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         stopUpdateTimer = Timer.scheduledTimer(timeInterval: syncSeconds, target: self, selector: #selector(LocationManager.syncAfterXSeconds), userInfo: nil, repeats: false);
     }
 
-    func restartUpdates() {
+    @objc func restartUpdates() {
         log(message: "restartUpdates called");
         if(locationTimer != nil) {
             locationTimer.invalidate();
@@ -459,13 +459,13 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         self.startUpdating(force: true);
     }
 
-    func setGPSLowPower() {
+    @objc func setGPSLowPower() {
         log(message: "Setting GPS To Low Power Mode ");
         self.lowPowerMode = true;
         self.startUpdating(force: true);
     }
 
-    func syncAfterXSeconds() {
+    @objc func syncAfterXSeconds() {
         self.setGPSLowPower();
         self.sync();
         log(message: "Stopped Location Updates After \(syncSeconds)");
@@ -497,7 +497,7 @@ class LocationManager : NSObject, CLLocationManagerDelegate {
         log(message: "Location Manager FAILED deferred \(error!.description)");
     }
 
-    func requestLocationPermissions() {
+    @objc func requestLocationPermissions() {
         if (!CLLocationManager.locationServicesEnabled()) {
             log(message: "Location services is not enabled");
         } else {
@@ -530,7 +530,7 @@ class ActivityManager : NSObject {
         }
     }
 
-    func confidenceToInt(confidence : CMMotionActivityConfidence) -> Int {
+    @objc func confidenceToInt(confidence : CMMotionActivityConfidence) -> Int {
         var confidenceMult = 0;
 
         switch(confidence) {
@@ -551,11 +551,11 @@ class ActivityManager : NSObject {
         return confidenceMult;
     }
 
-    func getActivityConfidence(detectedActivity : Bool, multiplier : Int) -> Int {
+    @objc func getActivityConfidence(detectedActivity : Bool, multiplier : Int) -> Int {
         return (detectedActivity ? 1 : 0) * multiplier;
     }
 
-    func activitiesToArray(data:CMMotionActivity) -> NSDictionary {
+    @objc func activitiesToArray(data:CMMotionActivity) -> NSDictionary {
         let confidenceMult = self.confidenceToInt(confidence: data.confidence);
 
         var detectedActivities:Dictionary = [
@@ -576,7 +576,7 @@ class ActivityManager : NSObject {
         return detectedActivities as NSDictionary;
     }
 
-    func sendActivitiesToCallback(activities : NSDictionary) {
+    @objc func sendActivitiesToCallback(activities : NSDictionary) {
         if(activityCommandDelegate != nil) {
             activityCommandDelegate?.run(inBackground: {
 
@@ -589,7 +589,7 @@ class ActivityManager : NSObject {
         }
     }
 
-    func startDetection() {
+    @objc func startDetection() {
         //NSLog("Activity Manager - Starting Detection %@", self.available);
         if(useActivityDetection == false) {
             return;
@@ -622,7 +622,7 @@ class ActivityManager : NSObject {
         }
     }
 
-    func stopDetection() {
+    @objc func stopDetection() {
         if(self.available && self.updatingActivities) {
             self.updatingActivities = false;
 
@@ -645,7 +645,7 @@ class TaskManager : NSObject {
     var _bgTaskList = [Int]();
     var _masterTaskId = UIBackgroundTaskInvalid;
 
-    func beginNewBackgroundTask() -> UIBackgroundTaskIdentifier {
+    @objc func beginNewBackgroundTask() -> UIBackgroundTaskIdentifier {
         //log(message: "beginNewBackgroundTask called");
 
         let app = UIApplication.shared;
@@ -669,15 +669,15 @@ class TaskManager : NSObject {
         return bgTaskId;
     }
 
-    func endBackgroundTasks() {
+    @objc func endBackgroundTasks() {
         self.drainBGTaskList(all: false);
     }
 
-    func endAllBackgroundTasks() {
+    @objc func endAllBackgroundTasks() {
         self.drainBGTaskList(all: true);
     }
 
-    func drainBGTaskList(all:Bool){
+    @objc func drainBGTaskList(all:Bool){
         let app = UIApplication.shared;
         if(app.responds(to: Selector(("endBackgroundTask")))) {
             let count = self._bgTaskList.count;
@@ -709,8 +709,8 @@ class NotificationManager : NSObject {
 
     static var manager = NotificationManager();
 
-    func notify(text: String) {
-        if(debug == true) {
+    @objc func notify(text: String) {
+        if(debug == false) {
             log(message: "Sending Notification");
             let notification = UILocalNotification();
             notification.timeZone = TimeZone.current;

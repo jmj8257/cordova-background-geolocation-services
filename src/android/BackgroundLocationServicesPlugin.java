@@ -1,4 +1,5 @@
-package com.flybuy.cordova.location;
+package com.jmjsoft.cordova.location;
+
 
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
@@ -35,6 +36,8 @@ import com.tqsoft.bsdriver.Service.AlarmReceiver;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -97,6 +100,7 @@ public class BackgroundLocationServicesPlugin extends CordovaPlugin {
 
   private BroadcastReceiver receiver = null;
 
+
   public static final int START_REQ_CODE = 0;
   public static final int PERMISSION_DENIED_ERROR = 20;
   protected final static String[] permissions = { Manifest.permission.ACCESS_COARSE_LOCATION, Manifest.permission.ACCESS_FINE_LOCATION , Manifest.permission.ACCESS_BACKGROUND_LOCATION };
@@ -124,7 +128,7 @@ public class BackgroundLocationServicesPlugin extends CordovaPlugin {
         public void run() {
           Log.i(TAG, "Received Detected Activities");
           ArrayList<DetectedActivity> updatedActivities =
-            intent.getParcelableArrayListExtra(Constants.ACTIVITY_EXTRA);
+                  intent.getParcelableArrayListExtra(Constants.ACTIVITY_EXTRA);
 
           JSONObject daJSON = new JSONObject();
 
@@ -491,10 +495,10 @@ public class BackgroundLocationServicesPlugin extends CordovaPlugin {
     double lat = location.getLatitude();
     double lng = location.getLongitude();
     OkHttpClient client = new OkHttpClient.Builder()
-      .connectTimeout(6000, TimeUnit.SECONDS)
-      .writeTimeout(6000, TimeUnit.SECONDS)
-      .readTimeout(6000, TimeUnit.SECONDS)
-      .build();
+            .connectTimeout(6000, TimeUnit.SECONDS)
+            .writeTimeout(6000, TimeUnit.SECONDS)
+            .readTimeout(6000, TimeUnit.SECONDS)
+            .build();
     HttpUrl.Builder httpBuider = HttpUrl.parse("https://tqsoft.co.kr/driver/cLocation/").newBuilder();
     httpBuider.addQueryParameter("userToken", this.userToken);
     httpBuider.addQueryParameter("appNumber", String.valueOf(3));
@@ -502,9 +506,9 @@ public class BackgroundLocationServicesPlugin extends CordovaPlugin {
     httpBuider.addQueryParameter("lng", String.valueOf(lng));
     RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"), "");
     Request request = new Request.Builder()
-      .url(httpBuider.build())
-      .post(body)
-      .build();
+            .url(httpBuider.build())
+            .post(body)
+            .build();
     client.newCall(request).enqueue(new Callback() {
       @Override
       public void onFailure(Call call, IOException e) {
@@ -530,4 +534,5 @@ public class BackgroundLocationServicesPlugin extends CordovaPlugin {
       }
     });
   }
+
 }
