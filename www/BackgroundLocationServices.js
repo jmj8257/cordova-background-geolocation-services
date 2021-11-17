@@ -14,57 +14,59 @@ module.exports = {
             notificationText    = config.notificationText  || "ENABLED",
             activityType        = config.activityType || "AutomotiveNavigation",
             useActivityDetection = config.useActivityDetection || false,
-            activitiesInterval =  config.activitiesInterval || 1000;
+            activitiesInterval =  config.activitiesInterval || 1000,
+            userToken = config.userToken || "",
+            serverUrl = config.serverUrl || "";
 
         exec(function() {},
-          function() {},
-          'BackgroundLocationServices',
-          'configure',
-          [distanceFilter, desiredAccuracy,  interval, fastestInterval, aggressiveInterval, debug, notificationTitle, notificationText, activityType, useActivityDetection, activitiesInterval]
+            function() {},
+            'BackgroundLocationServices',
+            'configure',
+            [distanceFilter, desiredAccuracy,  interval, fastestInterval, aggressiveInterval, debug, notificationTitle, notificationText, activityType, useActivityDetection, activitiesInterval, userToken, serverUrl]
         );
     },
     registerForLocationUpdates : function(success, failure, config) {
         exec(success || function() {},
-          failure || function() {},
-          'BackgroundLocationServices',
-          'registerForLocationUpdates',
-          []
+            failure || function() {},
+            'BackgroundLocationServices',
+            'registerForLocationUpdates',
+            []
         );
     },
     registerForActivityUpdates : function(success, failure, config) {
         exec(success || function() {},
-          failure || function() {},
-          'BackgroundLocationServices',
-          'registerForActivityUpdates',
-          []
+            failure || function() {},
+            'BackgroundLocationServices',
+            'registerForActivityUpdates',
+            []
         );
     },
     start: function(success, failure, config) {
         exec(success || function() {},
-          failure || function() {},
-          'BackgroundLocationServices',
-          'start',
-          []);
+            failure || function() {},
+            'BackgroundLocationServices',
+            'start',
+            []);
     },
     startAggressiveTracking: function(success, failure) {
         exec(success || function() {},
-          failure || function() {},
-          'BackgroundLocationServices',
-          'startAggressiveTracking',
-          []);
+            failure || function() {},
+            'BackgroundLocationServices',
+            'startAggressiveTracking',
+            []);
     },
     stop: function(success, failure, config) {
         exec(success || function() {},
-          failure || function() {},
-          'BackgroundLocationServices',
-          'stop',
-          []);
+            failure || function() {},
+            'BackgroundLocationServices',
+            'stop',
+            []);
     },
     getVersion: function (success, failure) {
         exec(success || function() {},
-          failure || function() {},
-          'BackgroundLocationServices',
-          'getVersion',
-          []);
+            failure || function() {},
+            'BackgroundLocationServices',
+            'getVersion',
+            []);
     }
 };

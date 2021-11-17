@@ -487,11 +487,11 @@ public class BackgroundLocationServicesPlugin extends CordovaPlugin {
 
   public void currentLocationSendToServer(Location location) {
     if (this.userToken == null) {
-      Log.e("사용자 정보가 없습니다.");
+      Log.e("사용자 정보가 없습니다.", "");
       return;
     }
     if (this.serverUrl == null) {
-      Log.e("서버 Url이 없습니다.");
+      Log.e("서버 Url이 없습니다.", "");
       return;
     }
 
