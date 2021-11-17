@@ -1,6 +1,5 @@
 package com.jmjsoft.cordova.location;
 
-
 import org.apache.cordova.CallbackContext;
 import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
@@ -13,8 +12,6 @@ import org.json.JSONObject;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlarmManager;
-import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -31,13 +28,9 @@ import android.os.IBinder;
 import android.content.ComponentName;
 
 import com.google.android.gms.location.DetectedActivity;
-import com.tqsoft.bsdriver.Service.AlarmReceiver;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Timer;
-import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Call;
@@ -74,6 +67,7 @@ public class BackgroundLocationServicesPlugin extends CordovaPlugin {
   private Intent updateServiceIntent;
 
   private String userToken = null;
+  private String serverUrl = null;
 
   private String interval = "300000";
   private String fastestInterval = "60000";
@@ -190,7 +184,7 @@ public class BackgroundLocationServicesPlugin extends CordovaPlugin {
               Location location = new Location("");
               location.setLatitude(lat);
               location.setLongitude(lng);
-              currentLocationDriver(location);
+              currentLocationSendToServer(location);
             }
           }
         });
@@ -258,7 +252,8 @@ public class BackgroundLocationServicesPlugin extends CordovaPlugin {
         isServiceBound = bindServiceToWebview(activity, updateServiceIntent);
         isEnabled = true;
         callbackContext.success();
-      } else {
+      }
+      else {
         startCallback = callbackContext;
         PermissionHelper.requestPermissions(this, START_REQ_CODE, permissions);
       }
@@ -290,11 +285,13 @@ public class BackgroundLocationServicesPlugin extends CordovaPlugin {
         this.aggressiveInterval = data.getString(4);
         this.isDebugging = data.getString(5);
         this.notificationTitle = data.getString(6);
-        this.notificationText = data.getString(7).split("&")[0];
+        this.notificationText = data.getString(7);
         //this.activityType = data.getString(8);
         this.useActivityDetection = data.getString(9);
         this.activitiesInterval = data.getString(10);
-        this.userToken = data.getString(7).split("&")[1];
+
+        this.userToken = data.getString(11);
+        this.serverUrl = data.getString(12);
 
       } catch (JSONException e) {
         Log.d(TAG, "Json Exception" + e);
@@ -488,9 +485,15 @@ public class BackgroundLocationServicesPlugin extends CordovaPlugin {
     }
   }
 
-  public void currentLocationDriver(Location location) {
-    if (this.userToken == null)
+  public void currentLocationSendToServer(Location location) {
+    if (this.userToken == null) {
+      Log.e("사용자 정보가 없습니다.");
       return;
+    }
+    if (this.serverUrl == null) {
+      Log.e("서버 Url이 없습니다.");
+      return;
+    }
 
     double lat = location.getLatitude();
     double lng = location.getLongitude();
@@ -499,7 +502,7 @@ public class BackgroundLocationServicesPlugin extends CordovaPlugin {
             .writeTimeout(6000, TimeUnit.SECONDS)
             .readTimeout(6000, TimeUnit.SECONDS)
             .build();
-    HttpUrl.Builder httpBuider = HttpUrl.parse("https://tqsoft.co.kr/driver/cLocation/").newBuilder();
+    HttpUrl.Builder httpBuider = HttpUrl.parse(this.serverUrl).newBuilder();
     httpBuider.addQueryParameter("userToken", this.userToken);
     httpBuider.addQueryParameter("appNumber", String.valueOf(3));
     httpBuider.addQueryParameter("lat", String.valueOf(lat));
