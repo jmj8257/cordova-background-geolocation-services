@@ -1,7 +1,9 @@
 # cordova-background-geolocation-services
-Background Geolocation For Android and iOS with pure javascript callbacks.
+![Platform](https://img.shields.io/badge/platform-android%20%7C%20ios-lightgrey)
 
-* Notice: This plugin needs a maintainer, if anyone is interested please make an issue. I no longer have the means to support this.
+본 플러그인은 (based on [agomezmoron/cordova-save-image-gallery](https://github.com/agomezmoron/cordova-save-image-gallery#readme)) android, ios의 백그라운드 위치 정보를 수집하기위한 cordova plugin 입니다.
+
+* Notice: 
 
 #### What is this?
 This plugin is for enabling background geolocation in your cordova project. It was aimed with the specific goal of normalizing the API for android and iOS and retrieving constant location updates in the background until you tell it to stop (If you tell it you want updates every 3 seconds it will give you one every 3 seconds). 
